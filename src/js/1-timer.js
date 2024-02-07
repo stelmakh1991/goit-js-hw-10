@@ -2,7 +2,7 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
-import iconClose from '../img/iconClose.svg';
+import iconClose from '../images/iconClose.svg';
 
 const startButton = document.querySelector('button[data-start]');
 const dataDay = document.querySelector('span[data-days]');
