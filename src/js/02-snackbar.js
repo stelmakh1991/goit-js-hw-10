@@ -1,6 +1,7 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-
+import iconClose from '../images/iconClose.svg';
+import iconSuccess from '../images/iconSuccess.svg';
 
 const form = document.querySelector('.form');
 const submitBtn = document.querySelector('[type="submit"]');
@@ -28,7 +29,7 @@ form.addEventListener('submit', function (event) {
         messageColor: '#FFF',
         backgroundColor: '#59A10D',
         position: 'topRight',
-        iconUrl: '../images/iconSuccess.svg',
+        iconUrl: iconSuccess,
       });
     })
     .catch(delay => {
@@ -37,7 +38,7 @@ form.addEventListener('submit', function (event) {
         messageColor: '#FFF',
         backgroundColor: '#EF4040',
         position: 'topRight',
-        iconUrl: '../images/iconClose.svg',
+        iconUrl: iconClose,
       });
     });
 });

@@ -2,6 +2,7 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
+import iconClose from '../images/iconClose.svg';
 
 const startButton = document.querySelector('button[data-start]');
 const dataDay = document.querySelector('span[data-days]');
@@ -39,7 +40,7 @@ const options = {
         messageLineHeight: '1.5',
         backgroundColor: '#EF4040',
         position: 'topRight',
-        iconUrl: '../images/iconClose.svg',
+        iconUrl: iconClose,
       });
       startButton.disabled = true;
     } else {
@@ -91,7 +92,7 @@ function onStart() {
       messageColor: '#FFF',
       backgroundColor: '#EF4040',
       position: 'topRight',
-      iconUrl: null,
+      iconUrl: iconClose,
     });
   }
 }
@@ -110,7 +111,7 @@ startButton.addEventListener('click', () => {
       messageColor: '#FFF',
       backgroundColor: '#EF4040',
       position: 'topRight',
-      icon: null,
+      icon: iconClose,
     });
   }
 });
