@@ -28,7 +28,7 @@ form.addEventListener('submit', function (event) {
         messageColor: '#FFF',
         backgroundColor: '#59A10D',
         position: 'topRight',
-        iconUrl: null,
+        iconUrl: '../images/iconSuccess.svg',
       });
     })
     .catch(delay => {
@@ -37,7 +37,7 @@ form.addEventListener('submit', function (event) {
         messageColor: '#FFF',
         backgroundColor: '#EF4040',
         position: 'topRight',
-        iconUrl: null,
+        iconUrl: '../images/iconClose.svg',
       });
     });
 });
