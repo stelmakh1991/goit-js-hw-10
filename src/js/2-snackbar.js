@@ -1,7 +1,7 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-import iconClose from '../images/iconClose.svg';
-import iconSuccess from '../images/iconSuccess.svg';
+import iconClose from '../img/iconClose.svg';
+import iconSuccess from '../img/iconSuccess.svg';
 
 const form = document.querySelector('.form');
 const submitBtn = document.querySelector('[type="submit"]');
