@@ -67,37 +67,13 @@ function addLeadingZero(value) {
   return value.toString().padStart(2, '0');
 }
 
-function onTimer(difference) {
+function displayTime(difference) {
   const timer = convertMs(difference);
   dataDay.textContent = `${addLeadingZero(timer.days)}`;
   dataHours.textContent = `${addLeadingZero(timer.hours)}`;
   dataMinutes.textContent = `${addLeadingZero(timer.minutes)}`;
   dataSeconds.textContent = `${addLeadingZero(timer.seconds)}`;
 }
-
-function onStart() {
-  if (userSelectedDate > Date.now()) {
-    difference = userSelectedDate.getTime() - Date.now();
-    timerInterval = setInterval(() => {
-      if (difference <= 0) {
-        clearInterval(timerInterval);
-      } else {
-        onTimer(difference);
-        difference -= 1000;
-      }
-    }, 1000);
-  } else {
-    iziToast.show({
-      message: 'Please choose a date in the future',
-      messageColor: '#FFF',
-      backgroundColor: '#EF4040',
-      position: 'topRight',
-      iconUrl: iconClose,
-    });
-  }
-}
-
-flatpickr('#datetime-picker', options);
 
 startButton.addEventListener('click', () => {
   if (userSelectedDate > Date.now()) {
@@ -115,3 +91,27 @@ startButton.addEventListener('click', () => {
     });
   }
 });
+
+function onStart() {
+  if (userSelectedDate > Date.now()) {
+    difference = userSelectedDate.getTime() - Date.now();
+    timerInterval = setInterval(() => {
+      if (difference <= 0) {
+        clearInterval(timerInterval);
+      } else {
+        displayTime(difference);
+        difference -= 1000;
+      }
+    }, 1000);
+  } else {
+    iziToast.show({
+      message: 'Please choose a date in the future',
+      messageColor: '#FFF',
+      backgroundColor: '#EF4040',
+      position: 'topRight',
+      iconUrl: iconClose,
+    });
+  }
+}
+
+flatpickr('#datetime-picker', options);
