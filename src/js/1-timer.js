@@ -11,6 +11,7 @@ const dataMinutes = document.querySelector('span[data-minutes]');
 const dataSeconds = document.querySelector('span[data-seconds]');
 const dataPicker = document.querySelector('#datetime-picker');
 
+// встановлення дефолтниих активних станів для кнопки та інпута при перезавантаженні
 dataPicker.disabled = false;
 dataPicker.classList.toggle('is-active');
 startButton.disabled = true;
@@ -49,6 +50,9 @@ const options = {
   },
 };
 
+flatpickr('#datetime-picker', options);
+
+// ФУНКЦІЯ convertMs  З ЗАВДАННЯ
 function convertMs(ms) {
   const second = 1000;
   const minute = second * 60;
@@ -63,10 +67,12 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
+// ФУНКЦІЯ ДОБАВЛЕННЯ НУЛЯ
 function addLeadingZero(value) {
   return value.toString().padStart(2, '0');
 }
 
+// ВІДОБРАЖЕННЯ ЧАСУ
 function displayTime(difference) {
   const timer = convertMs(difference);
   dataDay.textContent = `${addLeadingZero(timer.days)}`;
@@ -75,11 +81,13 @@ function displayTime(difference) {
   dataSeconds.textContent = `${addLeadingZero(timer.seconds)}`;
 }
 
+// Прослуховувач на кнопці запуску
 startButton.addEventListener('click', () => {
   if (userSelectedDate > Date.now()) {
     onStart();
       startButton.disabled = true;
       dataPicker.disabled = true;
+      // додаткове відключення подій курсора на інпуті, для кразої видимості, що він не активний
       dataPicker.classList.toggle('is-active');
   } else {
     iziToast.show({
@@ -92,6 +100,7 @@ startButton.addEventListener('click', () => {
   }
 });
 
+// ЗАПУСК ВІДЛІКУ
 function onStart() {
   if (userSelectedDate > Date.now()) {
     difference = userSelectedDate.getTime() - Date.now();
@@ -114,4 +123,3 @@ function onStart() {
   }
 }
 
-flatpickr('#datetime-picker', options);
