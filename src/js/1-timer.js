@@ -17,8 +17,6 @@ dataPicker.classList.toggle('is-active');
 startButton.disabled = true;
 
 let userSelectedDate;
-let difference;
-let timerInterval;
 
 const options = {
   enableTime: true,
@@ -28,7 +26,6 @@ const options = {
 
   onClose(selectedDates) {
     userSelectedDate = selectedDates[0];
-    difference = userSelectedDate.getTime() - Date.now();
     if (userSelectedDate < Date.now()) {
         iziToast.show({
         title: 'Erorr',
@@ -52,64 +49,71 @@ const options = {
 
 flatpickr('#datetime-picker', options);
 
-// ФУНКЦІЯ convertMs  З ЗАВДАННЯ
-function convertMs(ms) {
+
+class Timer {
+  constructor(tick) {
+    this.tick = tick;
+    this.isActive = false;
+  }
+
+  start() {
+    if (this.isActive) return;
+    this.isActive = true;
+    const initTime = userSelectedDate;
+
+    this.intervalId = setInterval(() => {
+      const diff = initTime - Date.now();
+      if (diff <= 0) { clearInterval(this.intervalId); } 
+      else {
+        const timeObj = this.convertMs(diff); 
+        this.tick(timeObj);
+      } 
+    }, 1000)
+  }
+
+  convertMs(ms) {
+  // Number of milliseconds per unit of time
   const second = 1000;
   const minute = second * 60;
   const hour = minute * 60;
   const day = hour * 24;
 
+  // Remaining days
   const days = Math.floor(ms / day);
+  // Remaining hours
   const hours = Math.floor((ms % day) / hour);
+  // Remaining minutes
   const minutes = Math.floor(((ms % day) % hour) / minute);
+  // Remaining seconds
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
   return { days, hours, minutes, seconds };
 }
-
-// ФУНКЦІЯ ДОБАВЛЕННЯ НУЛЯ
-function addLeadingZero(value) {
-  return value.toString().padStart(2, '0');
 }
 
-// ВІДОБРАЖЕННЯ ЧАСУ
-function displayTime(difference) {
-  const timer = convertMs(difference);
-  dataDay.textContent = `${addLeadingZero(timer.days)}`;
-  dataHours.textContent = `${addLeadingZero(timer.hours)}`;
-  dataMinutes.textContent = `${addLeadingZero(timer.minutes)}`;
-  dataSeconds.textContent = `${addLeadingZero(timer.seconds)}`;
-}
+const timer = new Timer(tick);
 
-// старт відліку
 startButton.addEventListener('click', () => {
-  if (userSelectedDate > Date.now()) {
-    onStart();
-      startButton.disabled = true;
-      dataPicker.disabled = true;
-      // додаткове відключення подій курсора на інпуті, для кразої видимості, що він не активний
-      dataPicker.classList.toggle('is-active');
-  } else {
-    iziToast.show({
-      message: 'Please choose a date in the future',
-      messageColor: '#FFF',
-      backgroundColor: '#EF4040',
-      position: 'topRight',
-      icon: iconClose,
-    });
-  }
-});
+  timer.start();
+  dataPicker.disabled = true;
+  // Додаткове відключення подій курсора на інпуті для кращої видимості, що інпут неактивний
+  dataPicker.classList.toggle('is-active');
+  startButton.disabled = true;
+})
 
-// функція тіку
-function onStart() {
-    difference = userSelectedDate.getTime() - Date.now();
-    timerInterval = setInterval(() => {
-      if (difference <= 0) {
-        clearInterval(timerInterval);
-      } else {
-        displayTime(difference);
-        difference -= 1000;
-      }
-    }, 1000);
+function tick({ days, hours, minutes, seconds }) {
+  const day = `${addZero(days)}`;
+  const hrs = `${addZero(hours)}`;
+  const min = `${addZero(minutes)}`;
+  const sec = `${addZero(seconds)}`;
+
+  dataDay.textContent = day;
+  dataHours.textContent = hrs;
+  dataMinutes.textContent = min;
+  dataSeconds.textContent = sec;
+}
+
+function addZero(num) {
+  return num.toString().padStart(2, '0');
 }
 
