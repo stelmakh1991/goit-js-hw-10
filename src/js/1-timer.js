@@ -28,7 +28,7 @@ const options = {
     userSelectedDate = selectedDates[0];
     if (userSelectedDate < Date.now()) {
         iziToast.show({
-        title: 'Erorr',
+        title: 'Error',
         titleColor: '#fff',
         titleSize: '16px',
         titleLineHeight: '1.5',
@@ -63,7 +63,13 @@ class Timer {
 
     this.intervalId = setInterval(() => {
       const diff = initTime - Date.now();
-      if (diff <= 0) { clearInterval(this.intervalId); } 
+      if (diff <= 0) {
+        clearInterval(this.intervalId);
+        dataPicker.disabled = false;
+        dataPicker.classList.toggle('is-active');
+        startButton.disabled = true;
+        this.isActive = false;
+      } 
       else {
         const timeObj = this.convertMs(diff); 
         this.tick(timeObj);
