@@ -81,7 +81,7 @@ function displayTime(difference) {
   dataSeconds.textContent = `${addLeadingZero(timer.seconds)}`;
 }
 
-// Прослуховувач на кнопці запуску
+// старт відліку
 startButton.addEventListener('click', () => {
   if (userSelectedDate > Date.now()) {
     onStart();
@@ -100,9 +100,8 @@ startButton.addEventListener('click', () => {
   }
 });
 
-// ЗАПУСК ВІДЛІКУ
+// функція тіку
 function onStart() {
-  if (userSelectedDate > Date.now()) {
     difference = userSelectedDate.getTime() - Date.now();
     timerInterval = setInterval(() => {
       if (difference <= 0) {
@@ -112,14 +111,5 @@ function onStart() {
         difference -= 1000;
       }
     }, 1000);
-  } else {
-    iziToast.show({
-      message: 'Please choose a date in the future',
-      messageColor: '#FFF',
-      backgroundColor: '#EF4040',
-      position: 'topRight',
-      iconUrl: iconClose,
-    });
-  }
 }
 
