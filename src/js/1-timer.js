@@ -26,7 +26,8 @@ const options = {
 
   onClose(selectedDates) {
     userSelectedDate = selectedDates[0];
-    if (userSelectedDate < Date.now()) {
+
+    if (userSelectedDate <= Date.now()) {
         iziToast.show({
         title: 'Error',
         titleColor: '#fff',
@@ -41,9 +42,11 @@ const options = {
         iconUrl: iconClose,
       });
       startButton.disabled = true;
+
     } else {
       startButton.disabled = false;
     }
+
   },
 };
 
@@ -57,12 +60,15 @@ class Timer {
   }
 
   start() {
+
     if (this.isActive) return;
     this.isActive = true;
     const initTime = userSelectedDate;
 
     this.intervalId = setInterval(() => {
+
       const diff = initTime - Date.now();
+
       if (diff <= 0) {
         clearInterval(this.intervalId);
         dataPicker.disabled = false;
@@ -70,11 +76,14 @@ class Timer {
         startButton.disabled = true;
         this.isActive = false;
       } 
+
       else {
         const timeObj = this.convertMs(diff); 
         this.tick(timeObj);
       } 
+
     }, 1000)
+
   }
 
   convertMs(ms) {
